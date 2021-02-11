@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.dieul.lab.geneticalgorithm.util
+package net.cardosi.geneticalgorithm.util
 
-import fr.dieul.lab.geneticalgorithm.model.Individual
-import fr.dieul.lab.geneticalgorithm.model.Population
+import net.cardosi.geneticalgorithm.model.Individual
+import net.cardosi.geneticalgorithm.model.Population
 import java.util.*
 
 
@@ -26,9 +26,9 @@ fun fittestOffSpring(firstFittest: Individual, secondFittest: Individual, number
     //Select a random crossover point
     val crossOverPoint = rn.nextInt(numberOfGenes)
     //Swap values among parents
-    val firstOffSpring = Individual(numberOfGenes)
+    val firstOffSpring = Individual()
     firstOffSpring.setGenes(firstFittest.getGenes())
-    val secondOffSpring = Individual(numberOfGenes)
+    val secondOffSpring = Individual()
     secondOffSpring.setGenes(secondFittest.getGenes())
 
     for (i in 0 until crossOverPoint) {

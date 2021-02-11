@@ -13,10 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package fr.dieul.lab.geneticalgorithm.util
+package net.cardosi.geneticalgorithm.util
 
-import fr.dieul.lab.geneticalgorithm.model.Individual
-import fr.dieul.lab.geneticalgorithm.model.Population
+import net.cardosi.geneticalgorithm.model.Individual
+import net.cardosi.geneticalgorithm.model.Population
+
+
+fun printPopulation(population: Population) {
+    println("Population of ${population.getIndividuals().size} individual(s).")
+}
 
 //show genetic state of the population pool
  fun printGeneticPool(individuals: List<Individual>, coloredGenes: Boolean) {

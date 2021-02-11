@@ -1,4 +1,4 @@
-package fr.dieul.lab.geneticalgorithm.util
+package net.cardosi.geneticalgorithm.util
 
 object ConsoleColors {
     // Reset

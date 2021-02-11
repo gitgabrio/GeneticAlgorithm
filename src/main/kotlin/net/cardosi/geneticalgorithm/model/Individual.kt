@@ -1,23 +1,27 @@
-package fr.dieul.lab.geneticalgorithm.model
+package net.cardosi.geneticalgorithm.model
 
-import fr.dieul.lab.geneticalgorithm.util.ConsoleColors
-import java.util.*
-import kotlin.math.abs
+import net.cardosi.geneticalgorithm.features.*
+import net.cardosi.geneticalgorithm.util.ConsoleColors
 import kotlin.Comparable as Comparable1
 
 
 //Individual class
-class Individual(geneLength: Int): Comparable1<Individual> {
+class Individual() : Comparable1<Individual> {
 
     var fitness = 0
-    private var genes: IntArray = IntArray(geneLength)
+    private val features: Map<Int, AbstractFeature> = mapOf(
+        0 to EyesFeature(),
+        1 to HairColorFeature(),
+        2 to HairLengthFeature(),
+        3 to HeightFeature(),
+        4 to SkinColorFeature(),
+        5 to WeightFeature()
+    )
+    private var genes: IntArray = IntArray(features.size)
 
     init {
-        //Initialization
-        val rn = Random()
-        //Set genes randomly for each individual
-        for (i in genes.indices) {
-            genes[i] = abs(rn.nextInt() % 2)
+        features.forEach { (t, u) ->
+            genes[t] = if (u.isOne()) 1 else 0
         }
         calcFitness()
     }
@@ -43,6 +47,7 @@ class Individual(geneLength: Int): Comparable1<Individual> {
             if (increment < genes.size - 1) genesString += ", "
         }
         genesString += "]]"
+        genesString += " | [features= ${features.values.joinToString()}"
         return genesString
     }
 
@@ -60,7 +65,7 @@ class Individual(geneLength: Int): Comparable1<Individual> {
 
     override fun toString(): String {
         //without colors
-        return "[genes= ${genes.contentToString()}]"
+        return "[genes= ${genes.contentToString()}] | [features= ${features.values.joinToString { "," }}"
     }
 
 

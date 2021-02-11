@@ -1,10 +1,7 @@
-package fr.dieul.lab.geneticalgorithm
+package net.cardosi.geneticalgorithm
 
-import fr.dieul.lab.geneticalgorithm.model.Population
-import fr.dieul.lab.geneticalgorithm.util.addFittestOffspring
-import fr.dieul.lab.geneticalgorithm.util.printFittestScore
-import fr.dieul.lab.geneticalgorithm.util.printGeneticPool
-import fr.dieul.lab.geneticalgorithm.util.printSolution
+import net.cardosi.geneticalgorithm.model.Population
+import net.cardosi.geneticalgorithm.util.*
 import java.util.concurrent.atomic.AtomicInteger
 
 class SimpleDemoGA {
@@ -21,7 +18,7 @@ class SimpleDemoGA {
             //Set parameters here
 
             //Number of genes each individual has
-            numberOfGenes = 20
+            numberOfGenes = 6
             //Number of individuals
             numberOfIndividuals = 5
             //Verbosity (e.g. Should we print genetic pool in the console?)
@@ -32,8 +29,8 @@ class SimpleDemoGA {
             //===================
 
             //Initialize population
-            val population = Population(numberOfIndividuals, numberOfGenes)
-            println("Population of " + population.getIndividuals().size + " individual(s).")
+            val population = Population(numberOfIndividuals)
+            printPopulation(population)
 
             //Select fittest
             population.getFirstFittest()

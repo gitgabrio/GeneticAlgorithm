@@ -1,18 +1,18 @@
-package fr.dieul.lab.geneticalgorithm.model
+package net.cardosi.geneticalgorithm.model
 
 import java.util.*
 import java.util.stream.Collectors
 import java.util.stream.IntStream
 
 //Population class
-class Population(private val popSize: Int, private val geneLength: Int) {
+class Population(private val popSize: Int) {
 
 
     /**
      * @purpose Initialize population
      */
     private val individuals: MutableList<Individual> = IntStream.range(0, popSize)
-        .mapToObj { Individual(geneLength) }
+        .mapToObj { Individual() }
         .collect(Collectors.toList())
     var fittestScore = 0
 
