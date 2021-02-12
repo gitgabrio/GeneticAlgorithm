@@ -1,0 +1,39 @@
+<PMML xmlns="http://www.dmg.org/PMML-4_2" version="4.2">
+  <Header/>
+  <DataDictionary numberOfFields="5">
+    <DataField name="water" optype="continuous" dataType="integer"/>
+    <DataField name="light" optype="continuous" dataType="integer"/>
+    <DataField name="Species" optype="categorical" dataType="string">
+      <Value value="fern"/>
+      <Value value="rose"/>
+      <Value value="cactus"/>
+    </DataField>
+  </DataDictionary>
+  <RegressionModel functionName="classification" modelName="Greenhouse_A" targetFieldName="Species">
+    <MiningSchema>
+      <MiningField name="water"/>
+      <MiningField name="light"/>
+      <MiningField name="Species" usageType="target"/>
+    </MiningSchema>
+    <Output>
+      <OutputField name="Predicted_Species" optype="categorical" dataType="string" feature="predictedValue"/>
+      <OutputField name="Probability_fern" optype="continuous" dataType="double" feature="probability" value="fern"/>
+      <OutputField name="Probability_rose" optype="continuous" dataType="double" feature="probability" value="rose"/>
+      <OutputField name="Probability_cactus" optype="continuous" dataType="double" feature="probability" value="cactus"/>
+    </Output>
+    <RegressionTable targetCategory="fern" intercept="1">
+      <NumericPredictor name="water" exponent="1" coefficient="1.5"/>
+      <NumericPredictor name="light" exponent="1" coefficient="-20"/>
+    </RegressionTable>
+
+    <RegressionTable targetCategory="rose" intercept="1">
+      <NumericPredictor name="water" exponent="1" coefficient="1"/>
+      <NumericPredictor name="light" exponent="1" coefficient="1"/>
+    </RegressionTable>
+
+    <RegressionTable targetCategory="cactus" intercept="1">
+      <NumericPredictor name="water" exponent="1" coefficient="-20"/>
+      <NumericPredictor name="light" exponent="1" coefficient="1.5"/>
+    </RegressionTable>
+  </RegressionModel>
+</PMML>

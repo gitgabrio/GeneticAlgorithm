@@ -15,43 +15,43 @@
  */
 package net.cardosi.geneticalgorithm.util
 
-import net.cardosi.geneticalgorithm.model.Individual
-import net.cardosi.geneticalgorithm.model.Population
+import net.cardosi.geneticalgorithm.model.Harvest
+import net.cardosi.geneticalgorithm.model.Farm
 
 
-fun printPopulation(population: Population) {
-    println("Population of ${population.getIndividuals().size} individual(s).")
+fun printPopulation(farm: Farm) {
+    println("Population of ${farm.getIndividuals().size} individual(s).")
 }
 
 //show genetic state of the population pool
- fun printGeneticPool(individuals: List<Individual>, coloredGenes: Boolean) {
+ fun printGeneticPool(harvests: List<Harvest>, coloredGenes: Boolean) {
     println("==Genetic Pool==")
-    individuals.indices.forEach {
-        val individual = individuals[it]
+    harvests.indices.forEach {
+        val individual = harvests[it]
         println("> Individual $it | ${(if (coloredGenes) individual.toStringColor() else individual.toString())} |")
     }
     println("================")
 }
 
- fun printFittestScore(population: Population, generationCount: Int) {
+ fun printFittestScore(farm: Farm, generationCount: Int) {
     println(
         """
                 
-                Generation: $generationCount Fittest score: ${population.fittestScore}""".trimIndent()
+                Generation: $generationCount Fittest score: ${farm.fittestScore}""".trimIndent()
     )
 }
 
- fun printSolution(population: Population, generationCount: Int, numberOfGenes: Int) {
+ fun printSolution(farm: Farm, generationCount: Int, numberOfGenes: Int) {
     println(
         """
     
     Solution found in generation $generationCount
     """.trimIndent()
     )
-    println("Fitness: " + population.fittestScore)
+    println("Fitness: " + farm.fittestScore)
     print("Genes: ")
     for (i in 0 until numberOfGenes) {
-        print(population.getFirstFittest().getGenes()[i])
+        print(farm.getFirstFittest().getGenes()[i])
     }
     println("")
 }

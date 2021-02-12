@@ -4,24 +4,19 @@ import net.cardosi.geneticalgorithm.features.*
 import net.cardosi.geneticalgorithm.util.ConsoleColors
 import kotlin.Comparable as Comparable1
 
-
-//Individual class
-class Individual() : Comparable1<Individual> {
+class Harvest(val requiredSpecie: String, val inputData: Map<String, Any>) : Comparable1<Harvest> {
 
     var fitness = 0
-    private val features: Map<Int, AbstractFeature> = mapOf(
-        0 to EyesFeature(),
-        1 to HairColorFeature(),
-        2 to HairLengthFeature(),
-        3 to HeightFeature(),
-        4 to SkinColorFeature(),
-        5 to WeightFeature()
+    private val features: Map<Int, AbstractGreenhouse> = mapOf(
+        0 to GreenhouseA(requiredSpecie),
+        1 to GreenhouseB(requiredSpecie),
+        2 to GreenhouseC(requiredSpecie)
     )
     private var genes: IntArray = IntArray(features.size)
 
     init {
         features.forEach { (t, u) ->
-            genes[t] = if (u.isOne()) 1 else 0
+            genes[t] = if (u.isOne(inputData)) 1 else 0
         }
         calcFitness()
     }
@@ -59,7 +54,7 @@ class Individual() : Comparable1<Individual> {
         genes.indices.forEach { i -> this.genes[i] = genes[i] }
     }
 
-    override fun compareTo(other: Individual): Int {
+    override fun compareTo(other: Harvest): Int {
         return other.fitness - this.fitness
     }
 

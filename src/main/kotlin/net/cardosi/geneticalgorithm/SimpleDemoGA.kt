@@ -1,35 +1,44 @@
 package net.cardosi.geneticalgorithm
 
-import net.cardosi.geneticalgorithm.model.Population
+import net.cardosi.geneticalgorithm.model.Farm
 import net.cardosi.geneticalgorithm.util.*
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.random.Random
+import kotlin.random.Random.Default.nextInt
 
 class SimpleDemoGA {
 
 
     companion object {
         private var numberOfGenes = 0
-        private var numberOfIndividuals = 0
+        private var numberOfHarvests = 0
         private var verbose = false
         private var coloredGenes = false
+        private val SPECIES = arrayOf("fern", "rose", "cactus")
+        private val requiredSpecie: String = SPECIES[nextInt(SPECIES.size)]
+        private val inputData: Map<String, Any> = mapOf(
+            "water" to nextInt(200) + 5,
+            "light" to nextInt(12) + 4
+        )
 
         @JvmStatic
         fun main(args: Array<String>) {
             //Set parameters here
 
             //Number of genes each individual has
-            numberOfGenes = 6
+            numberOfGenes = 3
             //Number of individuals
-            numberOfIndividuals = 5
+            numberOfHarvests = 5
             //Verbosity (e.g. Should we print genetic pool in the console?)
             verbose = true
             //Apply color to genes (if verbose = true) Note: this will slow down the process
             coloredGenes = true
 
+
             //===================
 
             //Initialize population
-            val population = Population(numberOfIndividuals)
+            val population = Farm(numberOfHarvests, requiredSpecie, inputData)
             printPopulation(population)
 
             //Select fittest
@@ -60,5 +69,6 @@ class SimpleDemoGA {
         }
 
     }
+
 
 }

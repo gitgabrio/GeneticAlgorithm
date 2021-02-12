@@ -15,20 +15,20 @@
  */
 package net.cardosi.geneticalgorithm.util
 
-import net.cardosi.geneticalgorithm.model.Individual
-import net.cardosi.geneticalgorithm.model.Population
+import net.cardosi.geneticalgorithm.model.Harvest
+import net.cardosi.geneticalgorithm.model.Farm
 import java.util.*
 
 
 //Crossover
-fun fittestOffSpring(firstFittest: Individual, secondFittest: Individual, numberOfGenes: Int) : Individual {
+fun fittestOffSpring(firstFittest: Harvest, secondFittest: Harvest, numberOfGenes: Int) : Harvest {
     val rn = Random()
     //Select a random crossover point
     val crossOverPoint = rn.nextInt(numberOfGenes)
     //Swap values among parents
-    val firstOffSpring = Individual()
+    val firstOffSpring = Harvest(firstFittest.requiredSpecie, firstFittest.inputData)
     firstOffSpring.setGenes(firstFittest.getGenes())
-    val secondOffSpring = Individual()
+    val secondOffSpring = Harvest(firstFittest.requiredSpecie, firstFittest.inputData)
     secondOffSpring.setGenes(secondFittest.getGenes())
 
     for (i in 0 until crossOverPoint) {
@@ -48,7 +48,7 @@ fun fittestOffSpring(firstFittest: Individual, secondFittest: Individual, number
 }
 
 //Mutation
-fun mutation(firstFittest: Individual, secondFittest: Individual, numberOfGenes: Int) {
+fun mutation(firstFittest: Harvest, secondFittest: Harvest, numberOfGenes: Int) {
     val rn = Random()
 
     //Select a random mutation point
@@ -67,11 +67,11 @@ fun mutation(firstFittest: Individual, secondFittest: Individual, numberOfGenes:
     }
 }
 
-fun addFittestOffspring(population : Population, numberOfGenes: Int) {
-    val firstFittest: Individual = population.getFirstFittest()
-    val secondFittest: Individual = population.getSecondFittest()
+fun addFittestOffspring(farm : Farm, numberOfGenes: Int) {
+    val firstFittest: Harvest = farm.getFirstFittest()
+    val secondFittest: Harvest = farm.getSecondFittest()
 
     val fittestOffSpring = fittestOffSpring(firstFittest, secondFittest, numberOfGenes)
 
-    population.replaceFittest(fittestOffSpring)
+    farm.replaceFittest(fittestOffSpring)
 }
