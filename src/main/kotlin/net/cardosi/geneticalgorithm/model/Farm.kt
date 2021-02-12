@@ -1,22 +1,24 @@
 package net.cardosi.geneticalgorithm.model
 
+import net.cardosi.geneticalgorithm.util.getPmmlFileModels
 import java.util.*
 import java.util.stream.Collectors
 import java.util.stream.IntStream
 
 //Farm class
-class Farm(popSize: Int, requiredSpecie: String, inputData: Map<String, Any>) {
+class Farm(popSize: Int, val requiredSpecie: String, val inputData: Map<String, Any>) {
 
 
     /**
      * @purpose Initialize population
      */
-    private val harvests: MutableList<Harvest> = IntStream.range(0, popSize)
-        .mapToObj { Harvest(requiredSpecie, inputData) }
-        .collect(Collectors.toList())
+    private val harvests: MutableList<Harvest> = ArrayList()
     var fittestScore = 0
 
     init {
+        val pmmlFileModels = getPmmlFileModels()
+        IntStream.range(0, popSize)
+            .forEach { harvests.add(Harvest(requiredSpecie, pmmlFileModels, inputData)) }
         updateFittest()
     }
 

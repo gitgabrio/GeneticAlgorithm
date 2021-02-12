@@ -3,11 +3,9 @@ package net.cardosi.geneticalgorithm
 import net.cardosi.geneticalgorithm.model.Farm
 import net.cardosi.geneticalgorithm.util.*
 import java.util.concurrent.atomic.AtomicInteger
-import kotlin.random.Random
 import kotlin.random.Random.Default.nextInt
 
 class SimpleDemoGA {
-
 
     companion object {
         private var numberOfGenes = 0
@@ -17,7 +15,7 @@ class SimpleDemoGA {
         private val SPECIES = arrayOf("fern", "rose", "cactus")
         private val requiredSpecie: String = SPECIES[nextInt(SPECIES.size)]
         private val inputData: Map<String, Any> = mapOf(
-            "water" to nextInt(200) + 5,
+            "water" to nextInt(50) + 5,
             "light" to nextInt(12) + 4
         )
 

@@ -9,18 +9,20 @@ import org.kie.pmml.api.runtime.PMMLRuntime
 import org.kie.pmml.evaluator.core.PMMLContextImpl
 
 abstract class AbstractGreenhouse(private val requiredSpecie: String,
-                                  private val pmmlFile: String,
-                                  private val modelName: String) {
+                                  private val modelName: String,
+                                  private val pmmlFile: String) {
 
 
-    private val pmmlRuntime: PMMLRuntime = getPMMLRuntime(pmmlFile);
+    private val pmmlRuntime: PMMLRuntime = getPMMLRuntime(pmmlFile)
+    lateinit var currentResult: String
 
     fun isOne(inputData: Map<String, Any>): Boolean {
-        return evaluateModel(inputData) == requiredSpecie
+        currentResult = evaluateModel(inputData)
+        return currentResult == requiredSpecie
     }
 
     override fun toString(): String {
-        return "${this.javaClass.simpleName}: $pmmlFile"
+        return "$modelName: $currentResult"
     }
 
     private fun evaluateModel(inputData: Map<String, Any>): String {

@@ -15,8 +15,8 @@
  */
 package net.cardosi.geneticalgorithm.util
 
-import net.cardosi.geneticalgorithm.model.Harvest
 import net.cardosi.geneticalgorithm.model.Farm
+import net.cardosi.geneticalgorithm.model.Harvest
 import java.util.*
 
 
@@ -25,10 +25,11 @@ fun fittestOffSpring(firstFittest: Harvest, secondFittest: Harvest, numberOfGene
     val rn = Random()
     //Select a random crossover point
     val crossOverPoint = rn.nextInt(numberOfGenes)
+    val pmmlFileModels = getPmmlFileModels()
     //Swap values among parents
-    val firstOffSpring = Harvest(firstFittest.requiredSpecie, firstFittest.inputData)
+    val firstOffSpring = Harvest(firstFittest.requiredSpecie, pmmlFileModels, firstFittest.inputData)
     firstOffSpring.setGenes(firstFittest.getGenes())
-    val secondOffSpring = Harvest(firstFittest.requiredSpecie, firstFittest.inputData)
+    val secondOffSpring = Harvest(firstFittest.requiredSpecie,  pmmlFileModels, firstFittest.inputData)
     secondOffSpring.setGenes(secondFittest.getGenes())
 
     for (i in 0 until crossOverPoint) {
@@ -37,34 +38,9 @@ fun fittestOffSpring(firstFittest: Harvest, secondFittest: Harvest, numberOfGene
         secondOffSpring.getGenes()[i] = temp
     }
 
-    //Do mutation under a random probability
-    if (rn.nextInt() % 7 < 5) {
-        mutation(firstOffSpring, secondOffSpring, numberOfGenes)
-    }
-
     firstOffSpring.calcFitness()
     secondOffSpring.calcFitness()
     return if (firstOffSpring.fitness > secondOffSpring.fitness)  firstOffSpring else secondOffSpring
-}
-
-//Mutation
-fun mutation(firstFittest: Harvest, secondFittest: Harvest, numberOfGenes: Int) {
-    val rn = Random()
-
-    //Select a random mutation point
-    var mutationPoint = rn.nextInt(numberOfGenes)
-    //Flip values at the mutation point
-    if (firstFittest.getGenes()[mutationPoint] == 0) {
-        firstFittest.getGenes()[mutationPoint] = 1
-    } else {
-        firstFittest.getGenes()[mutationPoint] = 0
-    }
-    mutationPoint = rn.nextInt(numberOfGenes)
-    if (secondFittest.getGenes()[mutationPoint] == 0) {
-        secondFittest.getGenes()[mutationPoint] = 1
-    } else {
-        secondFittest.getGenes()[mutationPoint] = 0
-    }
 }
 
 fun addFittestOffspring(farm : Farm, numberOfGenes: Int) {

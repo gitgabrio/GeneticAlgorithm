@@ -1,22 +1,33 @@
 package net.cardosi.geneticalgorithm.model
 
-import net.cardosi.geneticalgorithm.features.*
+import net.cardosi.geneticalgorithm.features.AbstractGreenhouse
+import net.cardosi.geneticalgorithm.features.Greenhouse
 import net.cardosi.geneticalgorithm.util.ConsoleColors
+import java.util.*
+import java.util.concurrent.atomic.AtomicInteger
+import kotlin.collections.HashMap
 import kotlin.Comparable as Comparable1
 
-class Harvest(val requiredSpecie: String, val inputData: Map<String, Any>) : Comparable1<Harvest> {
+class Harvest(
+    val requiredSpecie: String,
+    pmmlFileModels: SortedMap<String, String>,
+    val inputData: Map<String, Any>
+) : Comparable1<Harvest> {
 
     var fitness = 0
-    private val features: Map<Int, AbstractGreenhouse> = mapOf(
-        0 to GreenhouseA(requiredSpecie),
-        1 to GreenhouseB(requiredSpecie),
-        2 to GreenhouseC(requiredSpecie)
-    )
-    private var genes: IntArray = IntArray(features.size)
+
+    private val features: HashMap<Int, AbstractGreenhouse> = HashMap()
+
+
+    private var genes: IntArray = IntArray(pmmlFileModels.size)
 
     init {
-        features.forEach { (t, u) ->
-            genes[t] = if (u.isOne(inputData)) 1 else 0
+        val counter = AtomicInteger(0)
+        pmmlFileModels.forEach { (modelName, fileName) ->
+            val index = counter.getAndAdd(1)
+            val feature = Greenhouse(requiredSpecie, modelName, fileName)
+            features[index] = feature
+            genes[index] = if (feature.isOne(inputData)) 1 else 0
         }
         calcFitness()
     }

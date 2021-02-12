@@ -27,8 +27,8 @@ fun printPopulation(farm: Farm) {
  fun printGeneticPool(harvests: List<Harvest>, coloredGenes: Boolean) {
     println("==Genetic Pool==")
     harvests.indices.forEach {
-        val individual = harvests[it]
-        println("> Individual $it | ${(if (coloredGenes) individual.toStringColor() else individual.toString())} |")
+        val harvest = harvests[it]
+        println("> Harvest $it | ${(if (coloredGenes) harvest.toStringColor() else harvest.toString())} |")
     }
     println("================")
 }
@@ -36,7 +36,7 @@ fun printPopulation(farm: Farm) {
  fun printFittestScore(farm: Farm, generationCount: Int) {
     println(
         """
-                
+                Required specie: ${farm.requiredSpecie} Environment values ${farm.inputData}
                 Generation: $generationCount Fittest score: ${farm.fittestScore}""".trimIndent()
     )
 }
