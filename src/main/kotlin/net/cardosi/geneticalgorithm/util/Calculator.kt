@@ -6,17 +6,17 @@ import java.util.*
 
 
 //Crossover
-fun fittestOffSpring(firstFittest: Harvest, secondFittest: Harvest, numberOfGenes: Int) : Harvest {
+fun fittestOffSpring(requiredSpecie:String, numberOfGenes: Int, inputData: Map<String, Any>) : Harvest {
     val rn = Random()
+
+    // Modified pmml files is where gene mutation actually takes place
+    val pmmlFileModels = getPmmlFileModels(requiredSpecie)
+    val firstOffSpring = Harvest(requiredSpecie, pmmlFileModels, inputData)
+    val secondOffSpring = Harvest(requiredSpecie,  pmmlFileModels, inputData)
+
     //Select a random crossover point
     val crossOverPoint = rn.nextInt(numberOfGenes)
-    val pmmlFileModels = getPmmlFileModels()
-    //Swap values among parents
-    val firstOffSpring = Harvest(firstFittest.requiredSpecie, pmmlFileModels, firstFittest.inputData)
-    firstOffSpring.setGenes(firstFittest.getGenes())
-    val secondOffSpring = Harvest(firstFittest.requiredSpecie,  pmmlFileModels, firstFittest.inputData)
-    secondOffSpring.setGenes(secondFittest.getGenes())
-
+    //Swap values
     for (i in 0 until crossOverPoint) {
         val temp = firstOffSpring.getGenes()[i]
         firstOffSpring.getGenes()[i] = secondOffSpring.getGenes()[i]
@@ -29,10 +29,6 @@ fun fittestOffSpring(firstFittest: Harvest, secondFittest: Harvest, numberOfGene
 }
 
 fun addFittestOffspring(farm : Farm, numberOfGenes: Int) {
-    val firstFittest: Harvest = farm.getFirstFittest()
-    val secondFittest: Harvest = farm.getSecondFittest()
-
-    val fittestOffSpring = fittestOffSpring(firstFittest, secondFittest, numberOfGenes)
-
+    val fittestOffSpring = fittestOffSpring(farm.requiredSpecie, numberOfGenes, farm.inputData)
     farm.replaceFittest(fittestOffSpring)
 }

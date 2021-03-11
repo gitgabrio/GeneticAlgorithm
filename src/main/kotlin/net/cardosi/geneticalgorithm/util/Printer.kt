@@ -2,6 +2,7 @@ package net.cardosi.geneticalgorithm.util
 
 import net.cardosi.geneticalgorithm.model.Harvest
 import net.cardosi.geneticalgorithm.model.Farm
+import org.kie.api.pmml.PMML4Result
 
 
 fun printPopulation(farm: Farm) {
@@ -39,4 +40,15 @@ fun printPopulation(farm: Farm) {
         print(farm.getFirstFittest().getGenes()[i])
     }
     println("")
+}
+
+fun  printPmml4Result(toPrint: String, pmml4Result: PMML4Result) {
+    println(
+        """
+    
+    Model $toPrint 
+    results ${pmml4Result.resultVariables} 
+    """.trimIndent()
+    )
+
 }

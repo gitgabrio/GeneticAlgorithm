@@ -2,6 +2,7 @@ package net.cardosi.geneticalgorithm.features
 
 import net.cardosi.geneticalgorithm.util.getPMMLRequestData
 import net.cardosi.geneticalgorithm.util.getPMMLRuntime
+import net.cardosi.geneticalgorithm.util.printPmml4Result
 import org.kie.api.pmml.PMML4Result
 import org.kie.api.pmml.PMMLRequestData
 import org.kie.pmml.api.runtime.PMMLContext
@@ -29,7 +30,8 @@ abstract class AbstractGreenhouse(private val requiredSpecie: String,
         val pmmlRequestData: PMMLRequestData = getPMMLRequestData(modelName, inputData)
         val pmmlContext: PMMLContext = PMMLContextImpl(pmmlRequestData)
         val pmml4Result: PMML4Result = pmmlRuntime.evaluate(modelName, pmmlContext)
-        return pmml4Result.resultVariables[pmml4Result.resultObjectName] as String;
+        printPmml4Result(modelName, pmml4Result)
+        return pmml4Result.resultVariables[pmml4Result.resultObjectName] as String
     }
 
 }

@@ -16,7 +16,7 @@ class Farm(popSize: Int, val requiredSpecie: String, val inputData: Map<String, 
     var fittestScore = 0
 
     init {
-        val pmmlFileModels = getPmmlFileModels()
+        val pmmlFileModels = getPmmlFileModels(requiredSpecie)
         IntStream.range(0, popSize)
             .forEach { harvests.add(Harvest(requiredSpecie, pmmlFileModels, inputData)) }
         updateFittest()

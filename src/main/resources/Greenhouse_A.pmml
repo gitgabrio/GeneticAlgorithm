@@ -23,7 +23,7 @@
     </Output>
     <RegressionTable targetCategory="fern" intercept="1">
       <NumericPredictor name="water" exponent="1" coefficient="1.5"/>
-      <NumericPredictor name="light" exponent="1" coefficient="-20"/>
+      <NumericPredictor name="light" exponent="1" coefficient="-1.5"/>
     </RegressionTable>
 
     <RegressionTable targetCategory="rose" intercept="1">
@@ -32,7 +32,7 @@
     </RegressionTable>
 
     <RegressionTable targetCategory="cactus" intercept="1">
-      <NumericPredictor name="water" exponent="1" coefficient="-20"/>
+      <NumericPredictor name="water" exponent="1" coefficient="-1.5"/>
       <NumericPredictor name="light" exponent="1" coefficient="1.5"/>
     </RegressionTable>
   </RegressionModel>

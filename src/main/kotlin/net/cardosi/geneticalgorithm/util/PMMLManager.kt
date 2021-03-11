@@ -4,6 +4,7 @@ import org.dmg.pmml.Model
 import org.dmg.pmml.PMML
 import org.dmg.pmml.regression.NumericPredictor
 import org.dmg.pmml.regression.RegressionModel
+import org.dmg.pmml.regression.RegressionTable
 import org.jpmml.model.PMMLUtil
 import org.kie.pmml.compiler.commons.utils.KiePMMLUtil
 import org.kie.test.util.filesystem.FileUtils
@@ -15,49 +16,53 @@ import java.io.FileInputStream
 import java.util.*
 import kotlin.random.Random.Default.nextInt
 
-val LOGGER : Logger = LoggerFactory.getLogger("PMMLManager")
+val LOGGER: Logger = LoggerFactory.getLogger("PMMLManager")
 
-val PMMLFILEMODELS: SortedMap<String, String> = sortedMapOf("Greenhouse_A" to "Greenhouse_A.pmml",
+val PMMLFILEMODELS: SortedMap<String, String> = sortedMapOf(
+    "Greenhouse_A" to "Greenhouse_A.pmml",
     "Greenhouse_B" to "Greenhouse_B.pmml",
-    "Greenhouse_C" to "Greenhouse_C.pmml")
+    "Greenhouse_C" to "Greenhouse_C.pmml"
+)
 val MODELS = PMMLFILEMODELS.keys.toTypedArray()
 
 // Here is where mutation happens, at pmml model level
-fun getPmmlFileModels(): SortedMap<String, String> {
-    val rn = Random()
-    if (rn.nextInt() % 7 < 5) {
-        val modelToChange = MODELS[nextInt(MODELS.size)]
-        mutatePMMLFile(modelToChange, PMMLFILEMODELS[modelToChange] ?: throw IllegalAccessError("Missing $modelToChange in $PMMLFILEMODELS"))
-    }
+fun getPmmlFileModels(requiredSpecie: String): SortedMap<String, String> {
+    val modelToChange = MODELS[nextInt(MODELS.size)]
+    mutatePMMLFile(
+        modelToChange,
+        PMMLFILEMODELS[modelToChange] ?: throw IllegalAccessError("Missing $modelToChange in $PMMLFILEMODELS"),
+        requiredSpecie
+    )
     return PMMLFILEMODELS
 }
 
 // MUTATION
-private fun mutatePMMLFile(modelName: String, pmmlFileName: String)  {
+private fun mutatePMMLFile(modelName: String, pmmlFileName: String, requiredSpecie: String) {
     LOGGER.info("Mutating $modelName in $pmmlFileName")
     val pmmlFile: File = FileUtils.getFile(pmmlFileName)
     val fis = FileInputStream(pmmlFile)
     val pmmlModel: PMML = KiePMMLUtil.load(fis, pmmlFileName)
     fis.close()
     val model: Model = pmmlModel.models
-        .find { modelName == it.modelName } ?: throw IllegalAccessError("Failed to find model $modelName in file ${pmmlFile.absolutePath}")
-    mutateRegressionModel(model as RegressionModel)
+        .find { modelName == it.modelName }
+        ?: throw IllegalAccessError("Failed to find model $modelName in file ${pmmlFile.absolutePath}")
+    mutateRegressionModel(model as RegressionModel, requiredSpecie)
     writePMML(pmmlModel, pmmlFile.absolutePath)
 }
 
-private fun mutateRegressionModel(toMutate: RegressionModel) {
+private fun mutateRegressionModel(toMutate: RegressionModel, requiredSpecie: String) {
     LOGGER.debug("Mutating $toMutate")
-    val regressionTable = toMutate.regressionTables[nextInt(toMutate.regressionTables.size)]
+//    val regressionTable = toMutate.regressionTables[nextInt(toMutate.regressionTables.size)]
+    val regressionTable : RegressionTable = toMutate.regressionTables.first { requiredSpecie == it.targetCategory }
     LOGGER.debug("Mutating $regressionTable")
-    mutateNumericPredictor(regressionTable.numericPredictors[nextInt(regressionTable.numericPredictors.size)])
-}
-
-private fun mutateNumericPredictor(toMutate: NumericPredictor) {
-    LOGGER.info("Mutating $toMutate: previous coefficient ${toMutate.coefficient}")
-    val percentMutation : Double = nextInt(9, 11).toDouble() / 10.0
-    val newCoefficient = toMutate.coefficient.toDouble() * percentMutation
-    toMutate.coefficient = newCoefficient
-    LOGGER.info("Mutating $toMutate: new coefficient ${toMutate.coefficient}")
+    val percentMutation: Double = nextInt(3, 4).toDouble() / 10.0
+    val originalIntercept: Number = regressionTable.intercept as Number
+//    val delta = originalIntercept.toDouble() * percentMutation
+    regressionTable.intercept = originalIntercept.toInt() + 1
+//    when (requiredSpecie == regressionTable.targetCategory) {
+//        true -> regressionTable.intercept = originalIntercept.toDouble() + delta
+//        false -> regressionTable.intercept = originalIntercept.toDouble() - delta
+//    }
 }
 
 private fun writePMML(toWrite: PMML, fullPath: String) {

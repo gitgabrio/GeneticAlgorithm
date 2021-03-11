@@ -13,10 +13,15 @@ class SimpleDemoGA {
         private var verbose = false
         private var coloredGenes = false
         private val SPECIES = arrayOf("fern", "rose", "cactus")
-        private val requiredSpecie: String = SPECIES[nextInt(SPECIES.size)]
+//        private val requiredSpecie: String = SPECIES[nextInt(SPECIES.size)]
+        private val requiredSpecie: String = "rose"
+//        private val inputData: Map<String, Any> = mapOf(
+//            "water" to nextInt(50) + 5,
+//            "light" to nextInt(12) + 4
+//        )
         private val inputData: Map<String, Any> = mapOf(
-            "water" to nextInt(50) + 5,
-            "light" to nextInt(12) + 4
+            "water" to 48,
+            "light" to 5
         )
 
         @JvmStatic
