@@ -54,7 +54,7 @@ Each table has a different intercept value, and inside each of them a different 
 </RegressionTable>`
 
 When the greenhouse produces the required plant, its gene is 1, 0 otherwise.
-The harvest fitness is then number of genes with "1" as value.
+The harvest fitness is the number of genes with "1" as value.
 The cycle ends when the required fitness is obtained, and that happen when all greenhouses produce the required plant.
 
 At each iteration
